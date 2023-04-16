@@ -16,16 +16,13 @@ public class HappyNumber {
   }
 
   public static boolean isHappy(int n) {
-    Set<Integer> seen = new HashSet<>();
-    while (!seen.contains(n)) {
-      int sumOfDig = sumOfSquaredDigits(n);
-      if (sumOfDig == 1) {
-        return true;
-      }
-      seen.add(n);
-      n = sumOfDig;
+    int slow = n;
+    int fast = sumOfSquaredDigits(n);
+    while (fast != 1 && fast != slow) {
+      fast = sumOfSquaredDigits(sumOfSquaredDigits(fast));
+      slow = sumOfSquaredDigits(sumOfSquaredDigits(slow));
     }
-    return false;
+    return fast == 1;
   }
 
   public static void main(String[] args) {
