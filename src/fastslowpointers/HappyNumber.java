@@ -19,14 +19,14 @@ public class HappyNumber {
     int slow = n;
     int fast = sumOfSquaredDigits(n);
     while (fast != 1 && fast != slow) {
+      slow = sumOfSquaredDigits(slow);
       fast = sumOfSquaredDigits(sumOfSquaredDigits(fast));
-      slow = sumOfSquaredDigits(sumOfSquaredDigits(slow));
     }
     return fast == 1;
   }
 
   public static void main(String[] args) {
-    boolean res = isHappy(2);
+    boolean res = isHappy(19);
     System.out.println(res);
   }
 
