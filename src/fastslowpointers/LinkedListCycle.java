@@ -5,14 +5,20 @@ import java.util.Set;
 
 public class LinkedListCycle {
   public boolean hasCycle(ListNode head) {
-    Set<Integer> vals = new HashSet<>();
-    while (head.next != null) {
-      if (vals.contains(head.val)) {
-        return true;
+    if (head.next == null) return false;
+    ListNode fast = head.next;
+    ListNode slow = head;
+
+    while (fast != null && fast != slow) {
+      fast = fast.next;
+      if (fast == null) {
+        break;
       }
-      vals.add(head.val);
-      head = head.next;
+      fast = fast.next;
+
+      slow = slow.next;
     }
-    return false;
+
+    return fast == slow;
   }
 }
