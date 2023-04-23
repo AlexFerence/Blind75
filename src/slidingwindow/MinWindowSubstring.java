@@ -28,20 +28,37 @@ public class MinWindowSubstring {
       required.put(c, required.getOrDefault(c, 0) + 1);
     }
 
+    int minSize = Integer.MAX_VALUE;
+    String minString = "";
+
+    int startWindowIndex = 0;
+
     for (int i = 0; i < s.length(); i++) {
       char currentChar = s.charAt(i);
       window.put(currentChar, window.getOrDefault(currentChar, 0) + 1);
 
       if (validWindowForRequred(required, window)) {
         // traverse backwards
-        System.out.println("hello");
+        int end = i + 1;
+        // Pop chars from the left untill the window is invalid
+        while (validWindowForRequred(required, window)) {
+          char leftMostChar = s.charAt(startWindowIndex);
+          window.put(leftMostChar, window.get(leftMostChar) - 1);
+          if (window.get(leftMostChar) == 0) window.remove(leftMostChar);
+          if (!validWindowForRequred(required, window)) break;
+          startWindowIndex++;
+        }
 
-
-
+        int windowSize = end - startWindowIndex;
+        if (windowSize < minSize) {
+          minSize = windowSize;
+          minString = s.substring(startWindowIndex, end);
+        }
+        startWindowIndex++;
       }
     }
 
-    return "";
+    return minString;
   }
 
   public static void main(String[] args) {
