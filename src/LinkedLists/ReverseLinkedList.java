@@ -5,21 +5,20 @@ public class ReverseLinkedList {
   public static LinkedListNode reverse(LinkedListNode head) {
 
     LinkedListNode prev = null;
-    LinkedListNode current = head;
 
-    while (current.next != null) {
+    while (head.next != null) {
       // Store the next node for reference
-      LinkedListNode tempNext = current.next;
+      LinkedListNode tempNext = head.next;
 
       // Reverse the next node of current node
-      current.next = prev;
+      head.next = prev;
 
       // Increment the node to the next one
-      prev = current;
-      current = tempNext;
+      prev = head;
+      head = tempNext;
     }
-    current.next = prev;
-    return current;
+    head.next = prev;
+    return head;
   }
 
   public static void main(String[] args) {
