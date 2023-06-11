@@ -53,7 +53,6 @@ public class ReverseKGroup {
 
   public static LinkedListNode reverseKGroupsOLD(LinkedListNode head, int k) {
 
-
     // Traverse to see if a valid group is ahead
     LinkedListNode pioneer = head;
 
@@ -63,7 +62,7 @@ public class ReverseKGroup {
 
     while (pioneer != null) {
 
-      
+
       int pioneerCount = 0;
 
       while (pioneer != null && pioneerCount < k - 1) {
