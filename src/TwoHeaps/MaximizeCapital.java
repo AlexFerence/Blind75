@@ -1,5 +1,6 @@
 package TwoHeaps;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class MaximizeCapital {
@@ -8,6 +9,19 @@ public class MaximizeCapital {
 
   public static int maximumCapital(int c, int k, int[] capitals,int[] profits) {
 
+    PriorityQueue<Integer> capitalMinHeap = new PriorityQueue<>();
+
+    Comparator<Integer> maxHeapComparator = Comparator.reverseOrder();
+    PriorityQueue<Integer> profitMaxHeap = new PriorityQueue<>(maxHeapComparator);
+
+    // Populate min heap
+    for (int i = 0; i < capitals.length; i++) {
+      if (capitals[i] <= c) {
+        profitMaxHeap.add(profits[i]);
+      }
+    }
+
+
 
 
 
@@ -15,21 +29,14 @@ public class MaximizeCapital {
   }
 
   public static void main(String[] args) {
+    int[] capitals = {1,2,2,3};
+    int[] profits = {2,4,6,8};
+    int c = 1;
+    int k = 2;
 
-    // Min Heap
-    PriorityQueue<Integer> capital = new PriorityQueue<>();
+    int res = maximumCapital(c,k,capitals,profits);
 
-    capital.add(3);
-    capital.add(5);
-    capital.add(2);
-    capital.add(6);
-
-    // REMOVE nodes
-    System.out.println(capital.poll());
-    System.out.println(capital.poll());
-
-    // CHECK min node
-    System.out.println(capital.peek());
+    System.out.println(res);
 
   }
 }
