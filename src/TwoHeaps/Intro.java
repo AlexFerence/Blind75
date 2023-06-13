@@ -19,6 +19,7 @@ public class Intro {
 
     maxHeap.add(5);
     maxHeap.poll();
+    maxHeap.peek();
 
   }
 }
