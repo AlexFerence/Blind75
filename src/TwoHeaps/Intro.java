@@ -6,6 +6,8 @@ import java.util.PriorityQueue;
 public class Intro {
 
 
+
+
   public static void main(String[] args) {
 
     // Min heap
@@ -16,7 +18,7 @@ public class Intro {
     PriorityQueue<Integer> maxHeap = new PriorityQueue<>(maxHeapComparator);
 
     maxHeap.add(5);
-    maxHeap.remove();
+    maxHeap.poll();
 
   }
 }
