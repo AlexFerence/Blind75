@@ -1,0 +1,20 @@
+
+
+K-Way Merge
+
+- Solve problems involving list of sorted arrays
+
+KEY: Use the HEAP as a median between the dispersed list and the merged list
+
+Many sorted lists -> heap -> merged list
+
+Pattern:
+
+1. Insert first element of each array in a min heap
+2. Remove smallest element and add to merged array
+3. From the array the smallest element came from, add the next element into the heap
+(Requires keeping track of which array each element comes from in the min-heap)
+
+Keep doing until the heap is empty
+
+Could you also just add all elements into a heap?
