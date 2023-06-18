@@ -11,69 +11,47 @@ public class KPairsSmallestSums {
 
   private static class Storage {
     int sum;
-    List<Integer> pair;
-    public Storage(int s, List<Integer> p) {
+    int i;
+    int j;
+    public Storage(int s, int ii, int jj) {
       this.sum = s;
-      this.pair = p;
+      this.i = ii;
+      this.j = jj;
     }
   }
 
   public static List<List<Integer>> kSmallestPairs(int[] list1, int[] list2, int target) {
 
-    int l1p1 = 0;
-    int l1p2 = 1;
-
-    int l2p1 = 0;
-    int l2p2 = 1;
-
     PriorityQueue<Storage> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.sum));
     List<List<Integer>> smallestPairs = new ArrayList<>();
 
-    // Add the first element
-    if (target > 0) {
-      List<Integer> firstElement = new ArrayList();
-      firstElement.add(list1[0]);
-      firstElement.add(list1[0]);
-      smallestPairs.add(firstElement);
+    for (int i = 0; i < Math.min(target, list1.length); i++) {
+      int sum = list1[i] + list2[0];
+      minHeap.add(new Storage(sum, i, 0));
     }
 
-    while (smallestPairs.size() < target) {
+    int counter = 1;
+    while (!minHeap.isEmpty() && counter <= target) {
 
-      int sum1 = list1[l1p1] + list2[l2p2];
-      int sum2 = list2[l2p1] + list1[l1p2];
+      Storage min = minHeap.poll();
+      int i = min.i;
+      int j = min.j;
 
-      if (sum1 <= sum2) {
+      smallestPairs.add(List.of(list1[i], list2[j]));
 
-        List<Integer> arr1 = new ArrayList<>();
-        arr1.add(list1[l1p1]);
-        arr1.add(list1[l2p2]);
+      int nextElement = j + 1;
 
-        Storage firstIncrement = new Storage(sum1, arr1);
-
-        minHeap.add(firstIncrement);
-
-
-
+      if (list2.length > nextElement) {
+        minHeap.add(new Storage(list1[i] + list2[nextElement], i, nextElement));
       }
-      else {
-
-      }
-
-
-
-
-
-
-
-
+      counter++;
     }
-
-    return new ArrayList<>();
+    return smallestPairs;
   }
 
   public static void main(String[] args) {
-    int[] list1 = {1,2,10,11};
-    int[] list2 = {1,2,10,11};
+    int[] list1 = {2,3,9};
+    int[] list2 = {1,3,6};
     int k = 5;
 
     List<List<Integer>> res = kSmallestPairs(list1, list2, k);

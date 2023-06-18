@@ -1,0 +1,14 @@
+
+
+Finding the top k elements
+
+Sorting would take n log n time
+
+Can be done in n log k time by using a heap instead
+
+Maintain a heap of size k
+
+Use a min heap to find the top k largest
+
+Use a max heap to find the top k smallest
+
