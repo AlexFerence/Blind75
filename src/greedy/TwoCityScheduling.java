@@ -21,10 +21,7 @@ public class TwoCityScheduling {
   public static void main(String[] args) {
     // Sum should be 6
     int[][] costs = {{1,2}, {3,1}, {6,2}, {2,3}};
-
     int res = twoCityScheduling(costs);
-
     System.out.println(res);
-
   }
 }
