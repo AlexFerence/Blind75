@@ -2,50 +2,45 @@ package greedy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class MinNumRefuelingStops {
 
   public static int minRefuelStops(int target, int startFuel, int[][] stations) {
 
-    Arrays.sort(stations, (a,b) -> (b[1] - b[0]) - (a[1] - a[0]));
-
-    List<int[]> listStations = new ArrayList<>(List.of(stations));
-
-    listStations.sort((a,b) -> (b[1] - b[0]) - (a[1] - a[0]));
-
+    // Read the question!!! the stations distance is sorted!!!!!
+    int numStops = 0;
     int currentFuel = startFuel;
-    int stationsVisited = 0;
-    int distTravelled = 0;
+    int i = 0;
 
-    while (distTravelled < target) {
-      // Find best station - first possible option
-      int[] bestStation = null;
-      int bestStationIndex = 0;
-      for (int i = 0; i < listStations.size(); i++) {
-        if (listStations.get(i)[0] <= currentFuel) {
-          bestStation = listStations.get(i);
-          bestStationIndex = i;
-          break;
-        }
+    PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+    if (startFuel > target) return numStops;
+
+    while (currentFuel < target) {
+      if (i < stations.length && stations[i][0] <= currentFuel) {
+        maxHeap.add(stations[i][1]);
+        i++;
       }
-      if (bestStation == null) {
+      else if (maxHeap.isEmpty()) {
         return -1;
       }
-      currentFuel -= bestStation[0];
-      currentFuel += bestStation[1];
-      stationsVisited++;
-      listStations.remove(bestStationIndex);
-      distTravelled += bestStation[0];
+      else {
+        currentFuel += maxHeap.poll();
+        numStops++;
+      }
     }
-    return stationsVisited;
+    return numStops;
   }
 
   public static void main(String[] args) {
 
-    int[][] stations = {{2,5}, {3,1}, {6,4}, {12,6}};
+    int[][] stations = {{9,12}, {11,7}, {13,16}, {21,18}, {47,6}};
 
-    int res = minRefuelStops(15, 3, stations);
+    int res = minRefuelStops(59, 14, stations);
 
     System.out.println(res);
 
