@@ -7,7 +7,7 @@ public class SudokuSolver {
 
   public static char[][] solveSudoku(char[][] board) {
     char[][] res = null;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 1; i < 10; i++) {
       String iStr = "" + i;
       char[][] temp = solveSudokuRec(board, 0, 0, iStr.charAt(0));
       if (temp != null) res = temp;
@@ -19,20 +19,11 @@ public class SudokuSolver {
 
   public static char[][] solveSudokuRec(char[][] board, int x, int y, char c) {
 
-    board[y][x] = c;
-
-    if (!validBoard(board)) {
-      return null;
-    }
-
     // Increment to the next spot
-    if (x == 8 && y == 8) {
-      return board;
-    }
+    if (x == 8 && y == 8 && validBoard(board)) return board;
 
     int nX = x;
     int nY = y;
-
     if (nX == 8) {
       nX = 0;
       nY++;
@@ -40,15 +31,34 @@ public class SudokuSolver {
     else {
       nX++;
     }
-    
-    for (int i = 0; i < 10; i++) {
 
+    int rows = board.length;
+    int columns = board[0].length;
+
+    char[][] copy = new char[rows][columns];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        copy[i][j] = board[i][j];
+      }
     }
 
+    if (!validBoard(copy)) return null;
+    if (copy[y][x] == '.') {
+      copy[y][x] = c;
+      if (!validBoard(copy)) return null;
+      for (int i = 1; i < 10; i++) {
+        String iStr = "" + i;
+        char[][] temp = solveSudokuRec(copy, nX, nY, iStr.charAt(0));
+        if (temp != null) return copy;
+      }
+    }
+    else {
+      if (!validBoard(copy)) return null;
+      solveSudokuRec(copy, nX, nY, c);
+    }
 
-
-
-    return board;
+    return null;
   }
 
   // Function that determines if the board is valid
@@ -97,4 +107,31 @@ public class SudokuSolver {
     return true;
   }
 
+
+  public static void main(String[] args) {
+    String[][] input = {
+        {".", ".", ".", ".", ".", ".", ".", "7", "."},
+        {"2", "7", "5", ".", ".", ".", "3", "1", "4"},
+        {".", ".", ".", ".", "2", "7", ".", "5", "."},
+        {"9", "8", ".", ".", ".", ".", ".", "3", "1"},
+        {".", "3", "1", "8", ".", "4", ".", ".", "."},
+        {".", ".", ".", "1", ".", ".", "8", ".", "5"},
+        {"7", ".", "6", "2", ".", ".", "1", "8", "."},
+        {".", "9", ".", "7", ".", ".", ".", ".", "."},
+        {"4", "1", ".", ".", ".", "5", ".", ".", "7"}
+    };
+
+    char[][] charArray = new char[input.length][input[0].length];
+
+    for (int i = 0; i < input.length; i++) {
+      for (int j = 0; j < input[i].length; j++) {
+        charArray[i][j] = input[i][j].charAt(0);
+      }
+    }
+
+    char[][] arr = solveSudoku(charArray);
+
+    System.out.println(Arrays.toString(arr));
+
+  }
 }
