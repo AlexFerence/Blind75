@@ -5,18 +5,48 @@ import java.util.Arrays;
 public class Knapsack {
 
   public static int findMaxKnapsackProfit(int capacity, int[] weights, int[] values) {
-    // Your code will replace the placeholder below
+    return knapsackRecBottomUp(capacity, weights, values);
+  }
+
+  public static int knapsackRecBottomUp(int capacity, int[] weights, int[] values) {
+
+    int[][] dp = new int[values.length + 1][capacity + 1];
+
+    for (int i = 1; i <= weights.length; i++) {
+      for (int c = 1; c <= capacity; c++) {
+        // Get the value from the row above
+        int valWithoutItem = dp[i - 1][c];
+        int valWithItem = 0;
+        if (c - weights[i - 1] >= 0) {
+          valWithItem = values[i - 1] + dp[i - 1][c - weights[i - 1]];
+        }
+        dp[i][c] = Math.max(valWithoutItem, valWithItem);
+      }
+    }
+    return 0;
+  }
+
+
+  public static void main(String[] args) {
+    int[] weights = {2,3,4,5};
+    int[] value = {1,2,5,6};
+    int capacity = 8;
+    int res = findMaxKnapsackProfit(capacity, weights, value);
+    System.out.println(res);
+    // should output 8
+  }
+
+  public static int prepareKnapsackTopDown(int capacity, int[] weights, int[] values) {
     int[][] dp = new int[values.length + 1][capacity + 1];
 
     for (int[] temp : dp) {
       Arrays.fill(temp, -1);
     }
-
     return knapsackRecTopDown(capacity, weights, values, weights.length - 1, dp);
   }
 
+  // needs matrix filled with -1's
   public static int knapsackRecTopDown(int capacity, int[] weights, int[] values, int i, int[][] dp) {
-
     if (i == -1 || capacity == 0) {
       return 0;
     }
@@ -49,14 +79,5 @@ public class Knapsack {
         values[i] + knapsackRec(capacity - weights[i], weights, values, i - 1)
     );
 
-  }
-
-  public static void main(String[] args) {
-    int[] weights = {3,5,2,7};
-    int[] value = {3,4,5,1};
-    int capacity = 7;
-    int res = findMaxKnapsackProfit(capacity, weights, value);
-    System.out.println(res);
-    // should output 8
   }
 }
