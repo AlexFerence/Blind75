@@ -22,6 +22,24 @@ public class JumpGame2 {
   }
 
 
+  public static int jump(int[] nums) {
+
+    int furthestJump = 0;
+    int currentJump = 0;
+    int jumps = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+      furthestJump = Math.max(furthestJump, i + nums[i]);
+      if (i == furthestJump) {
+        jumps++;
+        currentJump = furthestJump;
+      }
+      if (currentJump >= nums.length - 1) break;
+    }
+
+    return jumps;
+  }
+
   public static void main(String[] args) {
     int[] arr = {2,9,1,1,1,1};
     int res = jumpGame2(arr);
